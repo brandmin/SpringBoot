@@ -5,9 +5,11 @@ import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+@Transactional
 //@Service // 서비스 어노테이션 안에 컴포넌트 어노테이션이 존재한다. 컨트롤러 포함
 public class MemberService {
 

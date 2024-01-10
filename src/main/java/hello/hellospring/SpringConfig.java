@@ -1,8 +1,11 @@
 package hello.hellospring;
 
 import hello.hellospring.repository.JdbcMemberRepository;
+import hello.hellospring.repository.JdbcTemplateMemberRepository;
+import hello.hellospring.repository.JpaMemberRepository;
 import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.service.MemberService;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,22 +16,25 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
-    private final DataSource dataSource;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService() {
         // 멤버 서비스는 멤버리파지토리를 연결함.
-        return new MemberService(memberRepository()); // 이 로직을 호출해서 스프링 빈 등록
+        return new MemberService(memberRepository); // 이 로직을 호출해서 스프링 빈 등록
     }
 
-    @Bean
-    public MemberRepository memberRepository() {
-       // return new MemoryMemberRepository(); // 메모리멤버리파지토리를 위의 서비스를 엮어야함.
-        return new JdbcMemberRepository(dataSource);
-    }
+  //  @Bean
+  //  public MemberRepository memberRepository() {
+        // return new MemoryMemberRepository(); // 메모리멤버리파지토리를 위의 서비스를 엮어야함.
+        // return new JdbcMemberRepository(dataSource);
+        // return new JdbcTemplateMemberRepository(dataSource);
+        // return new JpaMemberRepository(em);
+ //   }
+
 }
